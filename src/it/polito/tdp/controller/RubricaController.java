@@ -75,22 +75,16 @@ public class RubricaController {
 
     @FXML
     void doApplica(ActionEvent event) {                                   //avviene la vera CANCELLAZIONE
-    	                                                                 //si abilita solo dopo aver premuto cancella
-                                                                      	//ora è abilitato
-    int id= Integer.parseInt(txtId2.getText());                        //controlli gia fatti??
+        int id= Integer.parseInt(txtId2.getText());                      
     	model.cancella(id);
     	txtResult.clear();
-    	
     }
 
     @FXML
-    void doApplica1(ActionEvent event) {                             //avviene la MODIFICA
-    	                                                            //ora è abilitato
-    	
+    void doApplica1(ActionEvent event) {                             //avviene la MODIFICA //ora è abilitato
     	int id= Integer.parseInt(txtId1.getText());
         model.modifica(nomeM, cognomeM, dataM, telefonoM);
     	txtResult.clear();
-
     }
     
     @FXML
@@ -99,13 +93,10 @@ public class RubricaController {
     	if(id==0){
     		txtResult.appendText("Inserire l'ID ! \n");
     		return;
-    	}
-    	
+    	}	
     	String contatto = model.cercaConId(id);                              //mi ritorna un contatto   //se non c'è ritorna null
-    	                                                                    //ma lo vedo nei campi??
     	
     	txtResult.appendText("L'ID è : " + id + " e corrisponde a : " + contatto+ "\n ");
-    	
     	String nomeC= txtNome.setText(contatto.getNome());
     	String cognomeC=txtCognome.setText(value);
     	String dataC= txtDataNascita.setText();
@@ -115,16 +106,12 @@ public class RubricaController {
 
     @FXML
     void doInserisci(ActionEvent event) {   //inserisco tutti i campi, assegno id, mess conferma//se nome e cogn gia presnti stampo mess errore
-
-    	txtResult.clear();
-    	
+    	txtResult.clear();  	
     	String nome = txtNome.getText();
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
     	String data = txtDataNascita.getPromptText();
     	
-    	
-    
     	//NON DEVONO ESSERE VUOTI
     	if(nome.length()==0){
     		txtResult.appendText("Inserisci il nome! \n ");
@@ -144,7 +131,6 @@ public class RubricaController {
     		return;
     	}
     	
-    	
     	//DEVONO ESSERE LETTERE
     	for (int i = 0; i < nome.length(); i++) {    
             if (!Character.isLetter(nome.charAt(i))) {
@@ -152,42 +138,18 @@ public class RubricaController {
             	return;
             }
     	}
-    	
     	for (int i = 0; i < cognome.length(); i++) {    
             if (!Character.isLetter(cognome.charAt(i))) {
             	txtResult.appendText("Caratteri non ammessi! \n" );
             	return;
             }
     	}
-
-    	
-    	
-    	//DEVONO ESSERE NUMERI    ??
-    /*	for(int i =0 ; i< telefono.length(); i++){
-    		if(Character.isLetter(telefono.charAt(i))){
-    			txtResult.appendText("Il formato non è corretto! \n ");
-    			return;
-    		}
-    	}
-    	
-    	for(int i =0 ; i< data.length(); i++){
-    		if(Character.isLetter(data.charAt(i))){
-    			txtResult.appendText("Il formato non è corretto! \n ");
-    			return;
-    		}
-    	}
-    	*/
-    	
-    	//DEVONO ESSERE NUMERI:
-    	
+    	//DEVONO ESSERE NUMERI:	
     	boolean corretti = model.sonoNumeri(telefono, data);
     	if( !corretti){
     		txtResult.appendText("Il testo non è corretto! \n ");
     		return;
-    	}
-    	
-    	   	
-    	
+    	}	
     	Contatto c = null;
         model.aggiungiContatto ( new Contatto (nome, cognome, data, telefono, id) ) ;
     	if(c==null){
@@ -197,7 +159,6 @@ public class RubricaController {
     	else {
     		    txtResult.appendText("Il contatto è stato inserito \n ");    
     	}
-    	
     }
 
     @FXML
@@ -207,34 +168,18 @@ public class RubricaController {
     		txtResult.appendText("Inserire un ID! \n ");
     		return;
     	}
-    	
-    	//verifico ke l'id corrisponda ad un contatto:
     	model.cercaConId(id);                             //se c'è mi ritorna un contatto  //senno ritorna null
     	
-    	//devo valorizzare tutti i campi:
-    	
+    	//devo valorizzare tutti i campi: ??
     	
     	String nome = txtNome.setText();
     	
     	btnApplica1.setDisable(false);           //lo abilito
-    	
-
     }
 
     @FXML
     void doRicerca(ActionEvent event) {	    //devo visualizzare l'ID nella textArea
-    	/*String s = null ;
-        s = model.cerca(s);
-    	if(s==null){
-    		txtResult.appendText("Contatto non trovato! \n ");
-    		return;
-    	}
-    	if(s!=null){
-    		txtResult.appendText("Il contatto cercato è: " + model.cerca(s) + "\n" );
-    		return;
-    	}  */
-    	
-        txtResult.clear();
+      txtResult.clear();
         
         //utente puo inserire uno o piu campi per fare la ricerca
     	
@@ -242,16 +187,12 @@ public class RubricaController {
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
     	String data = txtDataNascita.getPromptText();
-    	
     	//una volta trovati nella text area devo stamparli tutti, ognuno preceduto dal suo ID
     	
     	List<Contatto> contattiTrovati = model.cerca(nome, cognome, data, telefono);
     	txtResult.appendText("I contatti trovati sono : " + contattiTrovati +  " \n ");
     	//txtResult.appendText(contattiTrovati);
     	return;
-    	
-    	
-    	
     }
 
     @FXML

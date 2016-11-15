@@ -65,7 +65,7 @@ public class Contatto {  //ogg ke metto dentro la lista dei contatti
 	
 	public String toString(){
 		String risultato= "";
-		risultato= id+" "+nome+" "+cognome+" "+dataNascita+" "+telefono;
+		risultato= id+" "+nome+" "+cognome+" "+dataNascita+" "+telefono+ "\n";
 		return risultato;
 	}
 }

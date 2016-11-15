@@ -83,7 +83,7 @@ public class RubricaController {
     @FXML
     void doApplica1(ActionEvent event) {                             //avviene la MODIFICA //ora è abilitato
     	int id= Integer.parseInt(txtId1.getText());
-        model.modifica(nomeM, cognomeM, dataM, telefonoM);
+        model.applicaModifica(nomeNuovo, cognomeNuovo, dataNuova, telefonoNuovo, idContatto);
     	txtResult.clear();
     }
     
@@ -171,8 +171,13 @@ public class RubricaController {
     	model.cercaConId(id);                             //se c'è mi ritorna un contatto  //senno ritorna null
     	
     	//devo valorizzare tutti i campi: ??
+    	String nomeNuovo;
+    	String cognomeNuovo;
+    	String dataNuova;
+    	String telefonoNuovo;
     	
-    	String nome = txtNome.setText();
+    	
+    	String nome = txtNome.setText(nomeNuovo);
     	
     	btnApplica1.setDisable(false);           //lo abilito
     }

@@ -56,22 +56,16 @@ public class Model {
 		return null;
 	}
 	
-	
-	
 	public void applicaModifica(int idContatto, String nomeNuovo, String cognomeNuovo, String dataNuova, String telefonoNuovo){
 		boolean trovato = true;
 		for(Contatto c: contattiInRubrica){
 			if(c.getId()==idContatto){
 				trovato =true;
-				
 			}
 		}
 		if(trovato){
-			Contatto c = new Contatto(nomeNuovo,  cognomeNuovo,  dataNuova,  telefonoNuovo, idContatto);
-			
-			
+			Contatto c = new Contatto(nomeNuovo,  cognomeNuovo,  dataNuova,  telefonoNuovo, idContatto);	
 		}
-		
 	}
 	
 	public void  stampaContatti(){                      //stampa in console
@@ -82,13 +76,37 @@ public class Model {
 		System.out.println(contattiInRubrica.toString());
 	}
 	
-	public boolean sonoNumeri(String telefono, String data){                                         //controlla ke data e tele siano numeri (inseriti da utente)
-		for(int i =0; i<telefono.length(); i++){
-			if(!Character.isDigit(telefono.charAt(i)) && ! Character.isDigit(data.charAt(i))){
+/*	public boolean sonoNumeri(String telefono, String data){          //non funziona                               //controlla ke data e tele siano numeri (inseriti da utente)
+		for(int i =0; i<telefono.length(); i++)  for(int j=0; j<data.length(); j++){
+				if(!Character.isDigit(telefono.charAt(i)) && !Character.isDigit(data.charAt(i))){
+						System.out.println(false);
+						return false;
+						
+					}
+				}
+			
+		System.out.println(true);
+		return true;
+	}*/
+	
+	public boolean telefonoENumero(String telefono){               //funziona
+		for(int i =0; i< telefono.length(); i++){
+			if(!Character.isDigit(telefono.charAt(i))){
 				System.out.println(false);
-				return false;	
-			   }
-		 }
+				return false;
+			}
+		}
+		System.out.println(true);
+		return true;
+	}
+	
+	public boolean dataENumero(String data){               //funziona
+		for(int i =0; i< data.length(); i++){
+			if(!Character.isDigit(data.charAt(i))){
+				System.out.println(false);
+				return false;
+			}
+		}
 		System.out.println(true);
 		return true;
 	}
@@ -118,22 +136,10 @@ public class Model {
 		
 		model.cercaConId(4);
 		model.cercaConId(6);
+		model.telefonoENumero("111hj11");
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		
 		/*model.aggiungiContatto(new Contatto ("mario", "rossi", "1234", "1234", 0));                                                        //lo stampo
 		model.aggiungiContatto(new Contatto ("luca", "bianco", "184", "184", 2));

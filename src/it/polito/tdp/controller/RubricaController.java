@@ -144,12 +144,19 @@ public class RubricaController {
             	return;
             }
     	}
+    	
     	//DEVONO ESSERE NUMERI:	
-    	boolean corretti = model.sonoNumeri(telefono, data);
-    	if( !corretti){
+    	boolean telefonoCorretto = model.telefonoENumero(telefono);
+    	if(!telefonoCorretto){
     		txtResult.appendText("Il testo non è corretto! \n ");
     		return;
-    	}	
+    	}
+    	boolean dataCorretta = model.dataENumero(data);
+    	if(!dataCorretta){
+    		txtResult.appendText("Il testo non è corretto! \n ");
+    		return;
+    	}
+    	
     	Contatto c = null;
         model.aggiungiContatto ( new Contatto (nome, cognome, data, telefono, id) ) ;
     	if(c==null){

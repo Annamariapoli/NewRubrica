@@ -1,5 +1,6 @@
 package it.polito.tdp.model;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Model {
 		}
 	}
 	
-	public List<Contatto> cerca(String nome, String cognome, String data, String telefono){    //ok    
+	public List<Contatto> cerca(String nome, String cognome, LocalDate data, String telefono){    //ok    
 		List<Contatto> trovati = new LinkedList<Contatto>();
 		for(Contatto c : contattiInRubrica){
 			if(c.getNome().equals(nome) || c.getCognome().equals(cognome) || c.getDataNascita().equals(data) || c.getTelefono().equals(telefono)){
@@ -31,19 +32,19 @@ public class Model {
 			}
 		}
 		System.out.println(trovati.toString());
-		return trovati;                   //DEVONO PERO ESSERE STAMPATI CON ID PRIMA
+		return trovati;                                  //DEVONO PERO ESSERE STAMPATI CON ID PRIMA
 	}
 	
-	public void cancella(int idContatto){              //non funziona bene
+	/*public void cancella(int idContatto){              //non funziona bene
 		for(Contatto c : contattiInRubrica){
 			if(c.getId()==idContatto){
 				contattiInRubrica.remove(c) ;
+				System.out.println("cancellato");
 			}
 		}
 		/*	if(trovato){
 			contattiInRubrica.remove(idContatto);     //cosi remove crede ke l'id sia la posizione a interno di lista dove bisogna togliere
 		}*/
-	}
 	
 	public String cercaConId(int idContatto){                    //ok
 		for(Contatto c : contattiInRubrica){
@@ -56,18 +57,37 @@ public class Model {
 		return null;
 	}
 	
-	public void applicaModifica(int idContatto, String nomeNuovo, String cognomeNuovo, String dataNuova, String telefonoNuovo){
-		boolean trovato = true;
+	
+/*	public void cancellaContatto(int idContatto){
+		contattiInRubrica.remove(idContatto);
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public void applicaModifica(int idContatto, String nomeNuovo, String cognomeNuovo, LocalDate dataNuova, String telefonoNuovo){
+		//boolean trovato = false;
 		for(Contatto c: contattiInRubrica){
 			if(c.getId()==idContatto){
-				trovato =true;
+			//	trovato =true;
+				c.setNome(nomeNuovo);
+				c.setCognome(cognomeNuovo);
+				c.setDataNascita(dataNuova);
+				c.setTelefono(telefonoNuovo);
 			}
 		}
-		if(trovato){
-			Contatto c = new Contatto(nomeNuovo,  cognomeNuovo,  dataNuova,  telefonoNuovo, idContatto);	
-		}
+		//if(trovato){
+			//Contatto c = new Contatto(nomeNuovo, cognomeNuovo, dataNuova, telefonoNuovo,id);
+		
 	}
-	
+	*/
 	public void  stampaContatti(){                      //stampa in console
 		 System.out.println(contattiInRubrica);
 	}
@@ -89,7 +109,7 @@ public class Model {
 		return true;
 	}*/
 	
-	public boolean telefonoENumero(String telefono){               //funziona
+/*	public boolean telefonoENumero(String telefono){               //funziona
 		for(int i =0; i< telefono.length(); i++){
 			if(!Character.isDigit(telefono.charAt(i))){
 				System.out.println(false);
@@ -109,15 +129,16 @@ public class Model {
 		}
 		System.out.println(true);
 		return true;
-	}
+	}*/
 	
 	public static void main(String [ ] args){
 		Model model = new Model();
-		Contatto c1 = new Contatto("mario", "rossi", "1234", "1234", 1);
-		Contatto c2 = new Contatto("luca", "bianco", "184", "184", 2);
-		Contatto c3 = new Contatto("giuseppe", "bianco", "185", "185", 3);
-		Contatto c4 = new Contatto("mario", "rossi", "1234", "1234", 0);           //nn aggiunto
-		Contatto c5 = new Contatto("fabio", "vario", "186", "186", 4);
+		
+		Contatto c1 = new Contatto("mario", "rossi",  null, "1234", 1);
+		Contatto c2 = new Contatto("luca", "bianco", null, "184", 2);
+		Contatto c3 = new Contatto("giuseppe", "bianco", null, "185", 3);
+		Contatto c4 = new Contatto("mario", "rossi", null, "1234", 0);           //nn aggiunto
+		Contatto c5 = new Contatto("fabio", "vario", null, "186", 4);
 		
 		model.aggiungiContatto(c1);
 		model.aggiungiContatto(c2);
@@ -127,19 +148,18 @@ public class Model {
 		
 		model.stampaPerRiga();
 		
-		//model.cerca("mario","rossi" , "1999", null);     //non esiste 1999 ma lo ritorna lo stesso
+		//model.cerca("mario","rossi" , null, "1234");     //non esiste 1999 ma lo ritorna lo stesso
 		
-		//model.cancella(1);         //cancella mario
+	//	model.cancella(1);         //cancella mario
 		//model.cancella(4);         //cancella giuseppe
 		
 		//model.stampaPerRiga();
 		
-		model.cercaConId(4);
-		model.cercaConId(6);
-		model.telefonoENumero("111hj11");
+	//	model.cercaConId(1);
+	//	model.cercaConId(77);
+	//	model.cancellaContatto(0);
+		model.stampaPerRiga();
 		
-		
-	
 		
 		/*model.aggiungiContatto(new Contatto ("mario", "rossi", "1234", "1234", 0));                                                        //lo stampo
 		model.aggiungiContatto(new Contatto ("luca", "bianco", "184", "184", 2));

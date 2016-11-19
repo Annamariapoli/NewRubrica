@@ -1,4 +1,5 @@
 package it.polito.tdp.model;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,11 +9,11 @@ public class Contatto {  //ogg ke metto dentro la lista dei contatti
 	//XKE QUESTA CLASSE è COME SE FOSSE IL SINGOLO CONTATTO--> ES: GINO
 	private String nome;
 	private String cognome;
-	private String dataNascita;
+	private LocalDate dataNascita;
 	private String telefono;
 	private int id;
 	
-	public Contatto(String nome, String cognome, String dataNascita, String telefono, int id) {
+	public Contatto(String nome, String cognome, LocalDate dataNascita, String telefono, int id) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
@@ -32,10 +33,10 @@ public class Contatto {  //ogg ke metto dentro la lista dei contatti
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
-	public String getDataNascita() {
+	public LocalDate getDataNascita() {
 		return dataNascita;
 	}
-	public void setDataNascita(String dataNascita) {
+	public void setDataNascita(LocalDate dataNascita) {
 		this.dataNascita = dataNascita;
 	}
 	public String getTelefono() {

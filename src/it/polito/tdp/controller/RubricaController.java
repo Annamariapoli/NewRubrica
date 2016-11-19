@@ -16,10 +16,6 @@ import javafx.scene.control.TextField;
 
 public class RubricaController {
 	
-	//textArea : setdisable o editable?  --> EDITABLE
-	//textField e textArea?
-	
-	
 	private Model model;
 	private Contatto contatti;
 
@@ -74,10 +70,12 @@ public class RubricaController {
     private TextArea txtResult;
 
     @FXML
-    void doApplica(ActionEvent event) {                                   //avviene la vera CANCELLAZIONE
+    void doApplica(ActionEvent event) {                    //avviene la vera CANCELLAZIONE
+    	                                                  //ho gia controllato ke l'id esista
         int id= Integer.parseInt(txtId2.getText());                      
     	model.cancella(id);
-    	txtResult.clear();
+    	txtResult.setText("La cancellazione è avvenbuta con successo ! \n ");
+    	
     }
 
     @FXML
@@ -89,7 +87,7 @@ public class RubricaController {
     
     @FXML
     void doCancella(ActionEvent event) {  	
-    	int id= Integer.parseInt(txtId2.getText());                              //prendo l'id inserito e lo memorizzo in una variabile
+    /*	int id= Integer.parseInt(txtId2.getText());                              //prendo l'id inserito e lo memorizzo in una variabile
     	if(id==0){
     		txtResult.appendText("Inserire l'ID ! \n");
     		return;
@@ -101,7 +99,36 @@ public class RubricaController {
     	String cognomeC=txtCognome.setText(value);
     	String dataC= txtDataNascita.setText();
     	String telefonoC= txttelefono.setText(value);
-    	btnApplica.setDisable(false);                 //abilito applica
+    	btnApplica.setDisable(false);                 //abilito applica*/
+    	
+    	int id = Integer.parseInt(txtId2.getText());          //prendo l'id inserito da utente e lo memorizzo in una variabile
+    	model.cercaConId(id);
+    	
+    	if(id==0){
+    		txtResult.setText("il contatto non è presente \n ");
+    		return ;
+    	}
+    	else { 
+    		model.cancellaContatto(id);
+    		
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	}
+    	
+    	
+    	
+    	
+    	
+    	
     }
 
     @FXML

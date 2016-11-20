@@ -35,16 +35,6 @@ public class Model {
 		return trovati;                                  //DEVONO PERO ESSERE STAMPATI CON ID PRIMA
 	}
 	
-	/*public void cancella(int idContatto){              //non funziona bene
-		for(Contatto c : contattiInRubrica){
-			if(c.getId()==idContatto){
-				contattiInRubrica.remove(c) ;
-				System.out.println("cancellato");
-			}
-		}
-		/*	if(trovato){
-			contattiInRubrica.remove(idContatto);     //cosi remove crede ke l'id sia la posizione a interno di lista dove bisogna togliere
-		}*/
 	
 	public String cercaConId(int idContatto){                    //ok
 		for(Contatto c : contattiInRubrica){
@@ -58,36 +48,29 @@ public class Model {
 	}
 	
 	
-/*	public void cancellaContatto(int idContatto){
-		contattiInRubrica.remove(idContatto);
+	public void cancellaContatto(Contatto contatto){
+		//for(Contatto c : contattiInRubrica){
+	    //     if(c.getId()!=0){
+		if(contatto!=null)
+		        contattiInRubrica.remove(contatto);
 	}
-	*/
 	
 	
 	
+	public void applicaModifica( String nomeNuovo, String cognomeNuovo, LocalDate dataNuova, String telefonoNuovo){
 	
-	
-	
-	
-	
-	
-	
-	/*public void applicaModifica(int idContatto, String nomeNuovo, String cognomeNuovo, LocalDate dataNuova, String telefonoNuovo){
-		//boolean trovato = false;
-		for(Contatto c: contattiInRubrica){
-			if(c.getId()==idContatto){
-			//	trovato =true;
+		int idContatto;
+		Contatto c = cercaConId(idContatto);
+		if(c.getId()!=0){
+		
 				c.setNome(nomeNuovo);
 				c.setCognome(cognomeNuovo);
 				c.setDataNascita(dataNuova);
 				c.setTelefono(telefonoNuovo);
-			}
-		}
-		//if(trovato){
-			//Contatto c = new Contatto(nomeNuovo, cognomeNuovo, dataNuova, telefonoNuovo,id);
 		
+		}
 	}
-	*/
+	
 	public void  stampaContatti(){                      //stampa in console
 		 System.out.println(contattiInRubrica);
 	}
@@ -109,7 +92,7 @@ public class Model {
 		return true;
 	}*/
 	
-/*	public boolean telefonoENumero(String telefono){               //funziona
+	public boolean telefonoNumero(String telefono){               //funziona
 		for(int i =0; i< telefono.length(); i++){
 			if(!Character.isDigit(telefono.charAt(i))){
 				System.out.println(false);
@@ -120,7 +103,7 @@ public class Model {
 		return true;
 	}
 	
-	public boolean dataENumero(String data){               //funziona
+	/*public boolean dataNumero(LocalDate data){               
 		for(int i =0; i< data.length(); i++){
 			if(!Character.isDigit(data.charAt(i))){
 				System.out.println(false);
@@ -137,7 +120,7 @@ public class Model {
 		Contatto c1 = new Contatto("mario", "rossi",  null, "1234", 1);
 		Contatto c2 = new Contatto("luca", "bianco", null, "184", 2);
 		Contatto c3 = new Contatto("giuseppe", "bianco", null, "185", 3);
-		Contatto c4 = new Contatto("mario", "rossi", null, "1234", 0);           //nn aggiunto
+		Contatto c4 = new Contatto("mario", "rossi", null, "1234", 1);           //nn aggiunto
 		Contatto c5 = new Contatto("fabio", "vario", null, "186", 4);
 		
 		model.aggiungiContatto(c1);
@@ -157,7 +140,7 @@ public class Model {
 		
 	//	model.cercaConId(1);
 	//	model.cercaConId(77);
-	//	model.cancellaContatto(0);
+		model.cancellaContatto(c3);
 		model.stampaPerRiga();
 		
 		

@@ -1,10 +1,10 @@
 package it.polito.tdp.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import it.polito.tdp.model.Contatto;
 import it.polito.tdp.model.Model;
 import javafx.event.ActionEvent;
@@ -16,10 +16,9 @@ import javafx.scene.control.TextField;
 
 public class RubricaController {
 	
-	private Model model;
+	private Model model = new Model();
 	private Contatto contatti;
 
-	
 	public void setModel(Model model){
 		this.model=model;
 	}
@@ -71,64 +70,42 @@ public class RubricaController {
 
     @FXML
     void doApplica(ActionEvent event) {                    //avviene la vera CANCELLAZIONE
-    	                                                  //ho gia controllato ke l'id esista
-        int id= Integer.parseInt(txtId2.getText());                      
-    	model.cancella(id);
-    	txtResult.setText("La cancellazione è avvenbuta con successo ! \n ");
+    	                                                  //ho gia controllato ke l'id esiste
+    	model.cancella(c);
+    	txtResult.setText("La cancellazione è avvenuta con successo ! \n ");
     	
     }
 
     @FXML
     void doApplica1(ActionEvent event) {                             //avviene la MODIFICA //ora è abilitato
-    	int id= Integer.parseInt(txtId1.getText());
-        model.applicaModifica(nomeNuovo, cognomeNuovo, dataNuova, telefonoNuovo, idContatto);
+        model.applicaModifica(txtNome.setText(nomeNuovo), txtCognome.setText(cognomeNuovo), txtDataNascita.setValue(dataNuova), txttelefono.setText(telefonoNuovo), idContatto);
     	txtResult.clear();
     }
     
     @FXML
     void doCancella(ActionEvent event) {  	
-    /*	int id= Integer.parseInt(txtId2.getText());                              //prendo l'id inserito e lo memorizzo in una variabile
+    	int id = Integer.parseInt(txtId2.getText());          //prendo l'id inserito da utente e lo memorizzo in una variabile
     	if(id==0){
-    		txtResult.appendText("Inserire l'ID ! \n");
+    		txtResult.appendText("Inserire l'ID \n");
     		return;
     	}	
-    	String contatto = model.cercaConId(id);                              //mi ritorna un contatto   //se non c'è ritorna null
-    	
-    	txtResult.appendText("L'ID è : " + id + " e corrisponde a : " + contatto+ "\n ");
-    	String nomeC= txtNome.setText(contatto.getNome());
-    	String cognomeC=txtCognome.setText(value);
-    	String dataC= txtDataNascita.setText();
-    	String telefonoC= txttelefono.setText(value);
-    	btnApplica.setDisable(false);                 //abilito applica*/
-    	
-    	int id = Integer.parseInt(txtId2.getText());          //prendo l'id inserito da utente e lo memorizzo in una variabile
+    	Contatto c = null;
     	model.cercaConId(id);
-    	
     	if(id==0){
-    		txtResult.setText("il contatto non è presente \n ");
+    		txtResult.setText("Il contatto non è presente \n ");
     		return ;
     	}
     	else { 
-    		model.cancellaContatto(id);
-    		
+    		txtNome.setText(c.getNome());
+    		txtCognome.setText(c.getCognome());
+    		txtDataNascita.setValue(c.getDataNascita());
+    		txttelefono.setText(c.getTelefono());
+
+    		txtResult.appendText("Per confermare premi applica \n ");
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
+    		//btnApplica.setDisable(false);                 //abilito applica??
     	}
-    	
-    	
-    	
-    	
-    	
-    	
+      	
     }
 
     @FXML
@@ -137,7 +114,7 @@ public class RubricaController {
     	String nome = txtNome.getText();
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
-    	String data = txtDataNascita.getPromptText();
+    	LocalDate data = txtDataNascita.getValue();
     	
     	//NON DEVONO ESSERE VUOTI
     	if(nome.length()==0){
@@ -153,7 +130,7 @@ public class RubricaController {
     		txtResult.appendText("Inserisci il telefono! \n ");
     		return ;
     	}
-    	if(data.isEmpty()){
+    	if(data.equals(null)){
     		txtResult.appendText("Inserisci la data! \n ");
     		return;
     	}
@@ -172,26 +149,22 @@ public class RubricaController {
             }
     	}
     	
-    	//DEVONO ESSERE NUMERI:	
-    	boolean telefonoCorretto = model.telefonoENumero(telefono);
+    	//DEVE ESSERE NUMERI:	
+    	boolean telefonoCorretto = model.telefonoNumero(telefono);
     	if(!telefonoCorretto){
-    		txtResult.appendText("Il testo non è corretto! \n ");
-    		return;
-    	}
-    	boolean dataCorretta = model.dataENumero(data);
-    	if(!dataCorretta){
     		txtResult.appendText("Il testo non è corretto! \n ");
     		return;
     	}
     	
     	Contatto c = null;
+    	int id=1;
         model.aggiungiContatto ( new Contatto (nome, cognome, data, telefono, id) ) ;
     	if(c==null){
     		txtResult.appendText("Il contatto  è gia presente in rubrica! \n");
     		return;
     	}
-    	else {
-    		    txtResult.appendText("Il contatto è stato inserito \n ");    
+    	   else {
+    		    txtResult.appendText("Il contatto è stato inserito \n ");      
     	}
     }
 
@@ -202,16 +175,19 @@ public class RubricaController {
     		txtResult.appendText("Inserire un ID! \n ");
     		return;
     	}
+    	Contatto c =null;
     	model.cercaConId(id);                             //se c'è mi ritorna un contatto  //senno ritorna null
+    	if(id==0){
+    		txtResult.appendText("Contatto non trovato \n ");
+    		return;
+    	}
     	
-    	//devo valorizzare tutti i campi: ??
-    	String nomeNuovo;
-    	String cognomeNuovo;
-    	String dataNuova;
-    	String telefonoNuovo;
-    	
-    	
-    	String nome = txtNome.setText(nomeNuovo);
+    	txtNome.setText(c.getNome());
+    	txtCognome.setText(c.getCognome());
+    	txtDataNascita.setValue(c.getDataNascita());
+    	txttelefono.setText(c.getTelefono());
+    
+    	txtResult.appendText("Per confermare premi applica \n ");
     	
     	btnApplica1.setDisable(false);           //lo abilito
     }
@@ -225,7 +201,7 @@ public class RubricaController {
     	String nome = txtNome.getText();
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
-    	String data = txtDataNascita.getPromptText();
+    	LocalDate data = txtDataNascita.getValue();
     	//una volta trovati nella text area devo stamparli tutti, ognuno preceduto dal suo ID
     	
     	List<Contatto> contattiTrovati = model.cerca(nome, cognome, data, telefono);

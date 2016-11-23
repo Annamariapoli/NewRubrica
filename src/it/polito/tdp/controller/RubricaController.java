@@ -17,7 +17,8 @@ import javafx.scene.control.TextField;
 public class RubricaController {
 	
 	private Model model = new Model();
-	private Contatto contatti;
+	//private Contatto contatti;
+	int id=1;
 
 	public void setModel(Model model){
 		this.model=model;
@@ -71,31 +72,27 @@ public class RubricaController {
     @FXML
     void doApplica(ActionEvent event) {                    //avviene la vera CANCELLAZIONE
     	                                                  //ho gia controllato ke l'id esiste
-    	model.cancella(c);
-    	txtResult.setText("La cancellazione è avvenuta con successo ! \n ");
+    //model.cancella(c);
+    //txtResult.setText("La cancellazione è avvenuta con successo ! \n ");
     	
     }
 
     @FXML
     void doApplica1(ActionEvent event) {                             //avviene la MODIFICA //ora è abilitato
-        model.applicaModifica(txtNome.setText(nomeNuovo), txtCognome.setText(cognomeNuovo), txtDataNascita.setValue(dataNuova), txttelefono.setText(telefonoNuovo), idContatto);
+        model.modifica(txtNome.setText(nomeNuovo), txtCognome.setText(cognomeNuovo), txtDataNascita.setValue(dataNuova), txttelefono.setText(telefonoNuovo), idContatto);
     	txtResult.clear();
     }
     
     @FXML
     void doCancella(ActionEvent event) {  	
     	int id = Integer.parseInt(txtId2.getText());          //prendo l'id inserito da utente e lo memorizzo in una variabile
-    	if(id==0){
-    		txtResult.appendText("Inserire l'ID \n");
-    		return;
-    	}	
     	Contatto c = null;
-    	model.cercaConId(id);
-    	if(id==0){
-    		txtResult.setText("Il contatto non è presente \n ");
-    		return ;
+    	c= model.cercaConId(id);
+    	if(c==null){
+    		txtResult.appendText("Contatto non trovato ! \n ");
+    		return;
     	}
-    	else { 
+    	else {                                                //se lo ha trovato
     		txtNome.setText(c.getNome());
     		txtCognome.setText(c.getCognome());
     		txtDataNascita.setValue(c.getDataNascita());
@@ -103,7 +100,7 @@ public class RubricaController {
 
     		txtResult.appendText("Per confermare premi applica \n ");
     	
-    		//btnApplica.setDisable(false);                 //abilito applica??
+    		btnApplica.setDisable(false);                 //abilito applica??
     	}
       	
     }
@@ -116,7 +113,7 @@ public class RubricaController {
     	String telefono = txttelefono.getText();
     	LocalDate data = txtDataNascita.getValue();
     	
-    	//NON DEVONO ESSERE VUOTI
+    	//NON DEVONO ESSERE VUOTI             //ok
     	if(nome.length()==0){
     		txtResult.appendText("Inserisci il nome! \n ");
     		return;
@@ -124,17 +121,15 @@ public class RubricaController {
     	if(cognome.length()==0){
     		txtResult.appendText("Inserisci il cognome! \n ");
     		return;
-    	}
-    	
-    	if(telefono.length()==0){
+    	}	
+    	if(telefono.length()==0){                                        
     		txtResult.appendText("Inserisci il telefono! \n ");
     		return ;
     	}
-    	if(data.equals(null)){
+    	if(data==null){
     		txtResult.appendText("Inserisci la data! \n ");
     		return;
     	}
-    	
     	//DEVONO ESSERE LETTERE
     	for (int i = 0; i < nome.length(); i++) {    
             if (!Character.isLetter(nome.charAt(i))) {
@@ -148,48 +143,66 @@ public class RubricaController {
             	return;
             }
     	}
-    	
-    	//DEVE ESSERE NUMERI:	
-    	boolean telefonoCorretto = model.telefonoNumero(telefono);
+    	//DEVE ESSERE NUMERO:	
+    	boolean telefonoCorretto = model.telefonoNumero(telefono);            //ok
     	if(!telefonoCorretto){
     		txtResult.appendText("Il testo non è corretto! \n ");
     		return;
     	}
+    	  	
+    	Contatto c1 = model.cercaPerAdd(nome, cognome, data, telefono);
+    	if(c1==null){
+    		model.aggiungiContatto(c1);
+    		id++;
+    		txtResult.appendText("Contatto inserito ! \n ");
+    	}
+    	else {
+    		    txtResult.appendText("Contatto gia presente ! \n ");              //genera eccez
+    		    return;
+    	}
     	
-    	Contatto c = null;
-    	int id=1;
-        model.aggiungiContatto ( new Contatto (nome, cognome, data, telefono, id) ) ;
-    	if(c==null){
-    		txtResult.appendText("Il contatto  è gia presente in rubrica! \n");
-    		return;
-    	}
-    	   else {
-    		    txtResult.appendText("Il contatto è stato inserito \n ");      
-    	}
-    }
+    	 
+    /*	Contatto c = null;
+        model.contattoPresente(nome, cognome, data, telefono);
+    	if(model.contattoPresente(nome, cognome, data, telefono)){      // se è true
+    		txtResult.appendText("Il contatto è gia presente! \n ");
+    		return ;                  //questo funziona                                                        
+    	}    
+    	else { 
+    		   if(!model.contattoPresente(nome, cognome, data, telefono))   //questo non funziona
+    		       model.aggiungiContatto(c);
+    	           id++;
+    	           txtResult.appendText("contatto inserito! \n ");
+             }*/
+    	           //l'else non funziona nemmeno cosi:
+    	          // model.aggiungiContatto(c);
+                 //    id++;
+                //   txtResult.appendText("contatto inserito! \n ");
+   	}
 
     @FXML
-    void doModifica(ActionEvent event) {                       //utente ha inserito l'ID //applicazione deve valorizzare i campi (di quell'ID)
+    void doModifica(ActionEvent event) {                       //utente ha inserito l'ID // l' applicazione deve valorizzare i campi (di quell'ID)
     	int id= Integer.parseInt(txtId1.getText());
-    	if(id==0){
-    		txtResult.appendText("Inserire un ID! \n ");
-    		return;
-    	}
-    	Contatto c =null;
-    	model.cercaConId(id);                             //se c'è mi ritorna un contatto  //senno ritorna null
     	if(id==0){
     		txtResult.appendText("Contatto non trovato \n ");
     		return;
+    	}	
+    	Contatto c = null;
+        c = model.cercaConId(id);                                       //se c'è mi ritorna un contatto  //senno ritorna null
+    	if(c==null){
+    		txtResult.appendText("Contatto non trovato ! \n ");
+    		return;
     	}
-    	
-    	txtNome.setText(c.getNome());
-    	txtCognome.setText(c.getCognome());
-    	txtDataNascita.setValue(c.getDataNascita());
-    	txttelefono.setText(c.getTelefono());
+    	else { 	
+            	txtNome.setText(c.getNome());
+    	        txtCognome.setText(c.getCognome());
+    	        txtDataNascita.setValue(c.getDataNascita());
+    	        txttelefono.setText(c.getTelefono());
     
-    	txtResult.appendText("Per confermare premi applica \n ");
+    	        txtResult.appendText("Per confermare premi applica \n ");
     	
-    	btnApplica1.setDisable(false);           //lo abilito
+    	        btnApplica1.setDisable(false);           //lo abilito
+    	}
     }
 
     @FXML

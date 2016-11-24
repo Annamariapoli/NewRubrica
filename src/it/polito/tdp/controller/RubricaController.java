@@ -75,9 +75,11 @@ public class RubricaController {
     	
     }
 
+    //come collegare il Contatto c del metodo doModifica() ??
     @FXML
     void doApplica1(ActionEvent event) {                             //avviene la MODIFICA //ora è abilitato
-        model.modifica(txtNome.setText(nomeNuovo), txtCognome.setText(cognomeNuovo), txtDataNascita.setValue(dataNuova), txttelefono.setText(telefonoNuovo), idContatto);
+       Contatto c ;
+    	model.modifica(txtNome.setText(nomeNuovo), txtCognome.setText(cognomeNuovo), txtDataNascita.setValue(dataNuova), txttelefono.setText(telefonoNuovo), idContatto);
     	txtResult.clear();
     }
     

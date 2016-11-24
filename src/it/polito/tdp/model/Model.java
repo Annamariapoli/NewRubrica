@@ -7,7 +7,7 @@ import java.util.List;
 public class Model {
 	
 	private List<Contatto> contattiInRubrica = new LinkedList<Contatto>();
-	                                                      //int id=1;   -->  nn ancora messo in lista ma appena inseirsco assume valore 1
+	      int id=1;                                                //int id=1;   -->  nn ancora messo in lista ma appena inseirsco assume valore 1
 	  
 	public void aggiungiContatto(Contatto contatto){    //ok                                       //"contatto" è dato dal kiamante
 		boolean trovato=false;
@@ -19,6 +19,15 @@ public class Model {
 		}
 		if(trovato==false){                                                    //oppure  -->  if(!trovato)                              
 		contattiInRubrica.add(contatto);  
+		}
+	}
+	
+	public void aggiungi(String nome, String cognome, LocalDate data, String telefono){    //ok
+		if(!contattoPresente(nome, cognome, data, telefono)){
+			Contatto c = new Contatto(nome, cognome, data, telefono);
+			c.setId(id);
+			id++;
+			contattiInRubrica.add(c);
 		}
 	}
 	
@@ -71,14 +80,14 @@ public class Model {
 			    return false;
 	}
 	
-	public Contatto cercaPerAdd(String nome, String cognome, LocalDate data, String telefono){
+	/*public Contatto cercaPerAdd(String nome, String cognome, LocalDate data, String telefono){
 		for(Contatto c : contattiInRubrica){
 			if(c.getNome().equals(nome) && c.getCognome().equals(cognome) && c.getDataNascita()==data && c.getTelefono().equals(telefono)){
 				return c;
 			}
 		}
 		return null;
-	}
+	}*/
 	
 	public void  stampaContatti(){                      //stampa in console
 		 System.out.println(contattiInRubrica);
@@ -99,8 +108,6 @@ public class Model {
 		return true;
 	}
 	
-	
-
 	
 	
 	/*public void applicaModifica( int idContatto, String nomeNuovo, String cognomeNuovo, LocalDate dataNuova, String telefonoNuovo){
@@ -161,9 +168,9 @@ public class Model {
 	public static void main(String [ ] args){
 		Model model = new Model();
 		
-		Contatto c1 = new Contatto("mario", "rossi",  null, "1234", 1);
-		Contatto c2 = new Contatto("luca", "bianco", null, "184", 2);
-		Contatto c3 = new Contatto("giuseppe", "bianco", null, "185", 3);
+		Contatto c1 = new Contatto("mario", "rossi",  null, "1234");
+		Contatto c2 = new Contatto("luca", "bianco", null, "184");
+		Contatto c3 = new Contatto("giuseppe", "bianco", null, "185");
 		//Contatto c4 = new Contatto("mario", "rossi", null, "1234", 1);           //nn aggiunto
 		//Contatto c5 = new Contatto("fabio", "vario", null, "186", 4);
 		

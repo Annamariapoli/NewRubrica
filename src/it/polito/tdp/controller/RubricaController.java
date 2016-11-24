@@ -17,9 +17,7 @@ import javafx.scene.control.TextField;
 public class RubricaController {
 	
 	private Model model = new Model();
-	//private Contatto contatti;
-	int id=1;
-
+	
 	public void setModel(Model model){
 		this.model=model;
 	}
@@ -105,13 +103,15 @@ public class RubricaController {
       	
     }
 
-    @FXML
+    @FXML   //funziona
     void doInserisci(ActionEvent event) {   //inserisco tutti i campi, assegno id, mess conferma//se nome e cogn gia presnti stampo mess errore
     	txtResult.clear();  	
+    	
     	String nome = txtNome.getText();
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
     	LocalDate data = txtDataNascita.getValue();
+    	
     	
     	//NON DEVONO ESSERE VUOTI             //ok
     	if(nome.length()==0){
@@ -148,39 +148,26 @@ public class RubricaController {
     	if(!telefonoCorretto){
     		txtResult.appendText("Il testo non è corretto! \n ");
     		return;
-    	}
-    	  	
-    	Contatto c1 = model.cercaPerAdd(nome, cognome, data, telefono);
-    	if(c1==null){
-    		model.aggiungiContatto(c1);
-    		id++;
-    		txtResult.appendText("Contatto inserito ! \n ");
-    	}
-    	else {
-    		    txtResult.appendText("Contatto gia presente ! \n ");              //genera eccez
-    		    return;
+    	
     	}
     	
-    	 
-    /*	Contatto c = null;
-        model.contattoPresente(nome, cognome, data, telefono);
-    	if(model.contattoPresente(nome, cognome, data, telefono)){      // se è true
-    		txtResult.appendText("Il contatto è gia presente! \n ");
-    		return ;                  //questo funziona                                                        
-    	}    
-    	else { 
-    		   if(!model.contattoPresente(nome, cognome, data, telefono))   //questo non funziona
-    		       model.aggiungiContatto(c);
-    	           id++;
-    	           txtResult.appendText("contatto inserito! \n ");
-             }*/
-    	           //l'else non funziona nemmeno cosi:
-    	          // model.aggiungiContatto(c);
-                 //    id++;
-                //   txtResult.appendText("contatto inserito! \n ");
+    	model.contattoPresente(nome, cognome, data, telefono);
+    	if(model.contattoPresente(nome, cognome, data, telefono)){                //se è true, esiste gia
+    		txtResult.appendText("Il contatto è gia presente \n ");
+    		return;
+    	}
+    	
+    	model.aggiungi(nome, cognome, data, telefono);
+    	txtResult.appendText("Il contatto è stato inserito \n ");
+    	
+    	txtNome.clear();
+    	txtCognome.clear();
+    	txtDataNascita.setValue(null);
+    	txttelefono.clear();
+    	
    	}
 
-    @FXML
+    @FXML  //funziona
     void doModifica(ActionEvent event) {                       //utente ha inserito l'ID // l' applicazione deve valorizzare i campi (di quell'ID)
     	int id= Integer.parseInt(txtId1.getText());
     	if(id==0){
@@ -205,8 +192,8 @@ public class RubricaController {
     	}
     }
 
-    @FXML
-    void doRicerca(ActionEvent event) {	    //devo visualizzare l'ID nella textArea
+    @FXML   //funziona
+    void doRicerca(ActionEvent event) {	    //devo visualizzare l'ID nella textArea  //ok
       txtResult.clear();
         
         //utente puo inserire uno o piu campi per fare la ricerca
@@ -215,11 +202,16 @@ public class RubricaController {
     	String cognome = txtCognome.getText();
     	String telefono = txttelefono.getText();
     	LocalDate data = txtDataNascita.getValue();
+    
+    	txtNome.clear();
+    	txtCognome.clear();
+    	txtDataNascita.setValue(null);
+    	txttelefono.clear();
+    	
     	//una volta trovati nella text area devo stamparli tutti, ognuno preceduto dal suo ID
     	
     	List<Contatto> contattiTrovati = model.cerca(nome, cognome, data, telefono);
-    	txtResult.appendText("I contatti trovati sono : " + contattiTrovati +  " \n ");
-    	//txtResult.appendText(contattiTrovati);
+    	txtResult.appendText("I contatti trovati sono : " + contattiTrovati.toString() +  " \n ");
     	return;
     }
 

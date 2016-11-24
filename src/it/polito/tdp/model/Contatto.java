@@ -11,15 +11,15 @@ public class Contatto {  //ogg ke metto dentro la lista dei contatti
 	private String cognome;
 	private LocalDate dataNascita;
 	private String telefono;
-	private int id;
+	private int id=1;
 	
-	public Contatto(String nome, String cognome, LocalDate dataNascita, String telefono, int id) {
+	public Contatto(String nome, String cognome, LocalDate dataNascita, String telefono) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataNascita = dataNascita;
 		this.telefono = telefono;
-		this.id = id;
+	//.id = id;
 	}
 	public String getNome() {
 		return nome;
